@@ -1,0 +1,42 @@
+name: Deploy to Azure ACI
+
+on:
+  push:
+    branches:
+      - main  # ou master selon ta branche par défaut
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Log in to Azure Container Registry
+      run: |
+        echo "${{ secrets.AZURE_ACR_PASSWORD }}" | docker login ${{ secrets.AZURE_ACR_LOGIN_SERVER }} \
+        --username ${{ secrets.AZURE_ACR_USERNAME }} --password-stdin
+
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.AZURE_ACR_LOGIN_SERVER }}/yassine-app:v1 .
+
+    - name: Push Docker image to ACR
+      run: docker push ${{ secrets.AZURE_ACR_LOGIN_SERVER }}/yassine-app:v1
+
+    - name: Deploy to Azure Container Instance
+      run: |
+        az login --service-principal -u ${{ secrets.AZURE_ACR_USERNAME }} -p ${{ secrets.AZURE_ACR_PASSWORD }} --tenant cb561bac-8eae-4e86-979a-765c514af3ae
+        az container create \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --name ${{ secrets.ACI_CONTAINER_NAME }} \
+          --image ${{ secrets.AZURE_ACR_LOGIN_SERVER }}/yassine-app:v1 \
+          --ip-address public \
+          --os-type Linux \
+          --ports 80 \
+          --cpu 1 --memory 1.5 \
+          --registry-login-server ${{ secrets.AZURE_ACR_LOGIN_SERVER }} \
+          --registry-username ${{ secrets.AZURE_ACR_USERNAME }} \
+          --registry-password ${{ secrets.AZURE_ACR_PASSWORD }} \
+          --location ${{ secrets.ACI_REGION }} \
+          --restart-policy Always
