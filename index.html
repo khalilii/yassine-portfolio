@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+  background-color: #121f38;
+}
+
+.cv-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.cv-button:hover {
+  background-color: #45a049;
+}
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yassine Khalili - Fiche Technique</title>
@@ -39,6 +61,9 @@
   </style>
 </head>
 <body>
+<div class="top-bar">
+  <a href="cv-yassine.pdf" target="_blank" class="cv-button">Voir Mon CV</a>
+</div>
   <h1>Yassine Khalili</h1>
   <h2>Ingénieur Cloud et Système</h2>
   <div class="section">
