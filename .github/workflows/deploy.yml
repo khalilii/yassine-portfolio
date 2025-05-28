@@ -29,9 +29,13 @@ jobs:
 
     - name: Deploy to Azure Container Instance
       run: |
+- name: Debug ACI_CONTAINER_NAME secret
+  run: echo "ACI_CONTAINER_NAME=${{ secrets.ACI_CONTAINER_NAME }}"
+-bash: - : commande introuvable
+-bash: ACI_CONTAINER_NAME=${{ secrets.ACI_CONTAINER_NAME }} : mauvaise substitution
         az container create \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --name ${{ secrets.ACI_CONTAINER_NAME }} \
+          --name yassine-aci-khalili \
           --image yassineregistrykhalili.azurecr.io/yassine-app:v1 \
           --ip-address public \
           --os-type Linux \
