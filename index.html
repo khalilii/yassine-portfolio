@@ -60,6 +60,24 @@
   <div class="top-bar">
     <a href="CV_YassineKhalili_Avril2025.pdf" target="_blank" class="cv-button">Voir Mon CV</a>
   </div>
+
+
+<p id="datetime" style="margin-top: 20px; font-weight: bold;"></p>
+
+<script>
+  const now = new Date();
+  const dateTimeString = now.toLocaleString('fr-FR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  document.getElementById('datetime').textContent = dateTimeString;
+</script>
+
   <h1>Yassine Khalili</h1>
   <h2>Ingénieur Cloud et Système</h2>
   <div class="section">
@@ -94,4 +112,3 @@
   </div>
 </body>
 </html>
-
